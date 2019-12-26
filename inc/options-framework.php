@@ -179,8 +179,8 @@ function optionsframework_setdefaults() {
 function optionsframework_menu_settings() {
 
 	$menu = array(
-		'page_title' => __( 'Sakura Options', 'optionsframework'),
-		'menu_title' => __('Sakura Options', 'optionsframework'),
+		'page_title' => __('Sakura Options', 'sakura'),
+		'menu_title' => __('Sakura Options', 'sakura'),
 		'capability' => 'edit_theme_options',
 		'menu_slug' => 'options-framework',
 		'callback' => 'optionsframework_page'
@@ -260,7 +260,6 @@ if ( !function_exists( 'optionsframework_page' ) ) :
 function optionsframework_page() { ?>
 
 	<div id="optionsframework-wrap" class="wrap">
-    <?php screen_icon( 'themes' ); ?>
     <h2 class="nav-tab-wrapper">
         <?php echo optionsframework_tabs(); ?>
     </h2>
@@ -273,8 +272,8 @@ function optionsframework_page() { ?>
 			<?php settings_fields( 'optionsframework' ); ?>
 			<?php optionsframework_fields(); /* Settings */ ?>
 			<div id="optionsframework-submit">
-				<input type="submit" class="button-primary" name="update" value="<?php esc_attr_e( '保存设置', 'options_framework_theme' ); ?>" />
-				<input type="submit" class="reset-button button-secondary" name="reset" value="<?php esc_attr_e( '恢复默认', 'options_framework_theme' ); ?>" onclick="return confirm( '<?php print esc_js( __( '如果单击“确定”会导致之前所有的设置都丢失，确定要这样做吗？', 'options_framework_theme' ) ); ?>' );" />
+				<input type="submit" class="button-primary" name="update" value="<?php _e( 'Save', 'sakura' ); ?>" />
+				<input type="submit" class="reset-button button-secondary" name="reset" value="<?php esc_attr_e( 'Restore default', 'sakura' ); ?>" onclick="return confirm( '<?php print esc_js( __( 'All setting will be lost, sure?', 'sakura' ) ); ?>' );" />
 				<div class="clear"></div>
 			</div>
 			</form>
@@ -410,7 +409,7 @@ function optionsframework_adminbar() {
 	$wp_admin_bar->add_menu( array(
 			'parent' => 'appearance',
 			'id' => 'of_theme_options',
-			'title' => __( 'Sakura Options', 'options_framework_theme' ),
+			'title' => __('Sakura Options', 'sakura'),
 			'href' => admin_url( 'themes.php?page=options-framework' )
 		));
 }

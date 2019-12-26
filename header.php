@@ -11,6 +11,20 @@
 ?>
 <?php header('X-Frame-Options: SAMEORIGIN'); ?>
 <!DOCTYPE html>
+<!-- 
+Theme by Mashiro
+                      /^--^\     /^--^\     /^--^\
+                      \____/     \____/     \____/
+                     /      \   /      \   /      \
+                    |        | |        | |        |
+                     \__  __/   \__  __/   \__  __/
+|^|^|^|^|^|^|^|^|^|^|^|^\ \^|^|^|^/ /^|^|^|^|^\ \^|^|^|^|^|^|^|^|^|^|^|^|
+| | | | | | | | | | | | |\ \| | |/ /| | | | | | \ \ | | | | | | | | | | |
+########################/ /######\ \###########/ /#######################
+| | | | | | | | | | | | \/| | | | \/| | | | | |\/ | | | | | | | | | | | |
+|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|
+
+-->
 <html <?php language_attributes(); ?>>
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>">
@@ -18,7 +32,7 @@
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
 <title itemprop="name"><?php global $page, $paged;wp_title( '-', true, 'right' );
 bloginfo( 'name' );$site_description = get_bloginfo( 'description', 'display' );
-if ( $site_description && ( is_home() || is_front_page() ) ) echo " - $site_description";if ( $paged >= 2 || $page >= 2 ) echo ' - ' . sprintf( __( '第 %s 页'), max( $paged, $page ) );?>
+if ( $site_description && ( is_home() || is_front_page() ) ) echo " - $site_description";if ( $paged >= 2 || $page >= 2 ) echo ' - ' . sprintf( __( 'page %s ','sakura'), max( $paged, $page ) );/*第 %s 页*/?>
 </title>
 <?php
 if (akina_option('akina_meta') == true) {
@@ -52,17 +66,20 @@ if (akina_option('akina_meta') == true) {
 <?php wp_head(); ?>
 <script type="text/javascript">
 if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
-  alert('朋友，IE浏览器未适配哦~');
+  alert('朋友，IE浏览器未适配哦~\n如果是 360、QQ 等双核浏览器，请关闭 IE 模式！');
 }
 </script>
+<?php if(akina_option('google_analytics_id', '')):?>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo akina_option('google_analytics_id', ''); ?>"></script>
 <script>
 window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','<?php echo akina_option('google_analytics_id', ''); ?>');
 </script>
+<?php endif; ?>
 </head>
 <body <?php body_class(); ?>>
-    <div class="scrollbar" id="bar"></div>
+    <?php if(get_template_directory_uri() != get_site_url().'/wp-content/themes/Sakura') echo '<div style="position:fixed;height:100%;width:100%;top:0;left:0;font-size:20px;z-index:999999;background-color: #fff;">Plz rename the theme folder name as <span style="color:red">Sakura</span>!<br>请将主题文件夹名改为 <span style="color:red">Sakura</span>！</div>'; ?>
+		<div class="scrollbar" id="bar"></div>
 	<section id="main-container">
 		<?php 
 		if(!akina_option('head_focus')){ 
@@ -103,5 +120,11 @@ window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}
 					</div>	
 				</div>
 			</header><!-- #masthead -->
-			<?php the_headPattern(); ?>
+			<?php if (get_post_meta(get_the_ID(), 'cover_type', true) == 'hls') {
+                the_video_headPattern_hls();
+            } elseif (get_post_meta(get_the_ID(), 'cover_type', true) == 'normal') { 
+                the_video_headPattern_normal();
+            }else {
+                the_headPattern();
+            } ?>
 		    <div id="content" class="site-content">

@@ -15,12 +15,13 @@
 		<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
 	</header><!-- .entry-header -->
 	<?php } ?>
+    <?php get_template_part('layouts/sidebox'); ?>
 	<div class="entry-content">
 		<?php
 			the_content();
 
 			wp_link_pages( array(
-				'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'akina' ),
+				'before' => '<div class="page-links">' . __( 'Pages:', 'sakura' ),
 				'after'  => '</div>',
 			) );
 		?>
@@ -31,7 +32,7 @@
 			edit_post_link(
 				sprintf(
 					/* translators: %s: Name of current post */
-					esc_html__( 'Edit %s', 'akina' ),
+					__( 'Edit %s', 'sakura' ),
 					the_title( '<span class="screen-reader-text">"', '"</span>', false )
 				),
 				'<span class="edit-link">',

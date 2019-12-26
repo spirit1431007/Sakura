@@ -11,7 +11,56 @@ if ( akina_option('theme_skin') ) { ?>
 .feature i , /*.feature-title span ,*/ .download , .navigator i:hover , .links ul li:before , .ar-time i , span.ar-circle , .object , .comment .comment-reply-link , .siren-checkbox-radio:checked + .siren-checkbox-radioInput:after { background: <?php echo akina_option('theme_skin'); ?> }
 ::-webkit-scrollbar-thumb { background: <?php echo akina_option('theme_skin'); ?> }
 .download , .navigator i:hover , .link-title , .links ul li:hover , #pagination a:hover , .comment-respond input[type='submit']:hover { border-color: <?php echo akina_option('theme_skin'); ?> }
-.entry-content a:hover , .site-info a:hover , .comment h4 a , #comments-navi a.prev , #comments-navi a.next , .comment h4 a:hover , .site-top ul li a:hover , .entry-title a:hover , #archives-temp h3 , span.page-numbers.current , .sorry li a:hover , .site-title a:hover , i.iconfont.js-toggle-search.iconsearch:hover , .comment-respond input[type='submit']:hover { color: <?php echo akina_option('theme_skin'); ?> }
+.entry-content a:hover , .site-info a:hover , .comment h4 a , #comments-navi a.prev , #comments-navi a.next , .comment h4 a:hover , .site-top ul li a:hover , .entry-title a:hover , #archives-temp h3 , span.page-numbers.current , .sorry li a:hover , .site-title a:hover , i.iconfont.js-toggle-search.iconsearch:hover , .comment-respond input[type='submit']:hover, blockquote:before, blockquote:after { color: <?php echo akina_option('theme_skin'); ?> }
+
+#aplayer-float .aplayer-lrc-current { color: <?php echo akina_option('theme_skin'); ?> !important}
+
+.is-active-link::before, .commentbody:not(:placeholder-shown)~.input-label, .commentbody:focus~.input-label {
+    background-color: <?php echo akina_option('theme_skin'); ?> !important
+}
+
+.commentbody:focus {
+    border-color: <?php echo akina_option('theme_skin'); ?> !important
+}
+
+.insert-image-tips:hover, .insert-image-tips-hover{ 
+    color: <?php echo akina_option('theme_skin'); ?>;
+    border: 1px solid <?php echo akina_option('theme_skin'); ?>
+}
+
+.site-top ul li a:after {
+    background-color: <?php echo akina_option('theme_skin'); ?>
+}
+
+.scrollbar,.butterBar-message {
+    background: <?php echo akina_option('theme_skin'); ?> !important
+}
+
+#nprogress .spinner-icon{ 
+    border-top-color: <?php echo akina_option('theme_skin'); ?>; 
+    border-left-color: <?php echo akina_option('theme_skin'); ?>
+}
+
+#nprogress .bar {
+    background: <?php echo akina_option('theme_skin'); ?>
+}
+
+.changeSkin-gear,.toc{
+    background:rgba(255,255,255,<?php echo akina_option('sakura_skin_alpha','') ?>);
+}
+
+<?php if(akina_option('entry_content_theme') == "sakura"){ ?>
+.entry-content th {
+    background-color: <?php echo akina_option('theme_skin'); ?>
+}
+<?php } ?>
+<?php if(akina_option('live_search')){ ?>
+.search-form--modal .search-form__inner {
+    bottom: unset !important;
+    top: 10% !important;
+}
+<?php } ?>
+
 <?php } // theme-skin ?>
 <?php // Custom style
 if ( akina_option('site_custom_style') ) {
@@ -29,10 +78,7 @@ if ( akina_option('toggle-menu') == 'no') { ?>
 .comments .comments-hidden {display:none !important;}
 <?php } // comments ?>
 <?php 
-
-$imgurl = get_site_url()."/wp-content/themes/Sakura/cover/";
-
-$image_api = 'background-image: url("'.$imgurl.'");';
+$image_api = 'background-image: url("'.rest_url('sakura/v1/image/cover').'");';
 $bg_style = akina_option('focus_height') ? 'background-position: center center;background-attachment: inherit;' : '';
 ?>
 .centerbg{<?php echo $image_api.$bg_style ?>background-position: center center;background-attachment: inherit;}
@@ -43,6 +89,14 @@ $bg_style = akina_option('focus_height') ? 'background-position: center center;b
     -o-animation: rotating 6s linear infinite;
     animation: rotating 6s linear infinite;
 }
+<?php if(akina_option('comment_info_box_width', '')): ?>
+.cmt-popup {
+    --widthA: <?php echo akina_option('comment_info_box_width', ''); ?>%;
+    --widthB: calc(var(--widthA) - 71px);
+    --widthC: calc(var(--widthB) / 3);
+    width: var(--widthC);
+}
+<?php endif;?>
 </style>
 <?php }
 add_action('wp_head', 'customizer_css');

@@ -23,7 +23,7 @@
 	 <?php if(is_sticky()) : ?>
 			<i class="iconfont hotpost icon-hot"></i>
 		 <?php endif ?>
-	  <i class="iconfont icon-time"></i><?php echo poi_time_since(strtotime($post->post_date));//the_time('Y-m-d');?>
+	  <i class="iconfont icon-time"></i><?php echo poi_time_since(strtotime($post->post_date_gmt));//the_time('Y-m-d');?>
 	  </div>
 		<p><?php echo mb_strimwidth(strip_shortcodes(strip_tags(apply_filters('the_content', $post->post_content))), 0, 150,"...");?></p>
 	<footer class="entry-footer">
@@ -32,10 +32,10 @@
 		</div>
 	<div class="info-meta">
        <div class="comnum">  
-        <span><i class="iconfont icon-mark"></i><?php comments_popup_link('NOTHING', '1 条评论', '% 条评论'); ?></span>
+        <span><i class="iconfont icon-mark"></i><?php comments_popup_link('NOTHING', '1 '.__("Comment","sakura")/*条评论*/, '% '.__("Comments","sakura")/*条评论*/); ?></span>
 		</div>
 		<div class="views"> 
-		<span><i class="iconfont icon-attention"></i><?php echo wp_statistics_pages(total,uri,get_the_ID()); ?> 热度</span>
+		<span><i class="iconfont icon-attention"></i><?php echo get_post_views(get_the_ID()).' '._n('Hit','Hits',get_post_views(get_the_ID()),'sakura')/*热度*/?></span>
 		 </div>   
         </div>		
 	</footer><!-- .entry-footer -->

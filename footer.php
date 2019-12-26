@@ -20,7 +20,7 @@
 	?>
 	</div><!-- #page Pjax container-->
 	<footer id="colophon" class="site-footer" role="contentinfo">
-		<div class="site-info">
+		<div class="site-info" theme-info="Sakura v<?php echo SAKURA_VERSION; ?>">
 			<div class="footertext">
 				<div class="img-preload">
 					<img src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/wordpress-rotating-ball-o.svg">
@@ -59,21 +59,32 @@
 		</div>
 		<div class="m-search">
 			<form class="m-search-form" method="get" action="<?php echo home_url(); ?>" role="search">
-				<input class="m-search-input" type="search" name="s" placeholder="<?php _e('搜索...', 'akina') ?>" required>
+				<input class="m-search-input" type="search" name="s" placeholder="<?php _e('Search...', 'sakura') /*搜索...*/?>" required>
 			</form>
 		</div>
 		<?php wp_nav_menu( array( 'depth' => 2, 'theme_location' => 'primary', 'container' => false ) ); ?>
 	</div><!-- m-nav-center end -->
-	<a href="#" class="cd-top faa-float animated "></a>
+	<a class="cd-top faa-float animated "></a>
 	<button onclick="topFunction()" id="moblieGoTop" title="Go to top"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
 	<!-- search start -->
 	<form class="js-search search-form search-form--modal" method="get" action="<?php echo home_url(); ?>" role="search">
 		<div class="search-form__inner">
-			<div>
-				<p class="micro mb-"><?php _e('想要找点什么呢？', 'akina') ?></p>
+		<?php if(akina_option('live_search')){ ?>
+			<div class="micro">
 				<i class="iconfont icon-search"></i>
-				<input class="text-input" type="search" name="s" placeholder="<?php _e('Search', 'akina') ?>" required>
+				<input id="search-input" class="text-input" type="search" name="s" placeholder="<?php _e('Want to find something?', 'sakura') /*想要找点什么呢*/?>" required>
 			</div>
+			<div class="ins-section-wrapper">
+                <a id="Ty" href="#"></a>
+                <div class="ins-section-container" id="PostlistBox"></div>
+            </div>
+		<?php }else{ ?>
+			<div class="micro">
+				<p class="micro mb-"><?php _e('Want to find something?', 'sakura') /*想要找点什么呢*/?></p>
+				<i class="iconfont icon-search"></i>
+				<input class="text-input" type="search" name="s" placeholder="<?php _e('Search', 'sakura') ?>" required>
+			</div>
+		<?php } ?>
 		</div>
 		<div class="search_close"></div>
 	</form>
@@ -84,7 +95,7 @@
 <script type="text/javascript"><?php echo akina_option('site_statistics'); ?></script>
 </div>
 <?php } ?>
-<div class="changeSkin-gear no-select">
+<div class="changeSkin-gear no-select" style="bottom: -999px;">
     <div class="keys">
         <span id="open-skinMenu">
 		<i class="iconfont icon-gear inline-block rotating"></i>&nbsp; 切换主题 | SCHEME TOOL 
@@ -128,33 +139,25 @@
     </div>
 </div>
 <canvas id="night-mode-cover"></canvas>
-<?php 
-if (akina_option('adobe_id_1', '')) {
-	$adobe = rand(0,2);
-	switch ($adobe) {
-		case 0:
-			$adobe_id = akina_option('adobe_id_1', '');
-			break;
-		case 1:
-			if (akina_option('adobe_id_2', '')) {
-				$adobe_id = akina_option('adobe_id_2', '');
-			} else {
-				$adobe_id = akina_option('adobe_id_1', '');
-			}
-			break;
-		default:
-			if (akina_option('adobe_id_3', '')) {
-				$adobe_id = akina_option('adobe_id_3', '');
-			} else {
-				$adobe_id = akina_option('adobe_id_1', '');
-			}
-	}
-	if(!wp_is_mobile()): 
-	?>
-	<script src="https://use.typekit.net/<?php echo $adobe_id; ?>.js"></script>
-	<script>try{Typekit.load({ async: true });}catch(e){}</script>
-	<?php 
-	endif;
-} ?>
+<?php if (akina_option('sakura_widget')) : ?>
+	<aside id="secondary" class="widget-area" role="complementary" style="left: -400px;">
+    <div class="heading"><?php _e('Widgets') /*小工具*/ ?></div>
+    <div class="sakura_widget">
+	<?php if (function_exists('dynamic_sidebar') && dynamic_sidebar('sakura_widget')) : endif; ?>
+	</div>
+	<div class="show-hide-wrap"><button class="show-hide"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32"><path d="M22 16l-10.105-10.6-1.895 1.987 8.211 8.613-8.211 8.612 1.895 1.988 8.211-8.613z"></path></svg></button></div>
+    </aside>
+<?php endif; ?>
+<?php if (akina_option('playlist_id', '')): ?>
+    <div id="aplayer-float" style="z-index: 100;"
+	    class="aplayer"
+        data-id="<?php echo akina_option('playlist_id', ''); ?>"
+        data-server="netease"
+        data-type="playlist"
+        data-fixed="true"
+        data-theme="orange">
+    </div>
+    <style>.skin-menu{left:auto;right:10px;}.changeSkin-gear{left:auto;right:5px;}</style>
+<?php endif; ?>
 </body>
 </html>

@@ -11,13 +11,24 @@
 //}
 //add_filter('the_excerpt', 'custom_short_excerpt');
 $i=0; while ( have_posts() ) : the_post(); $i++;
-$class = ($i%2 == 0) ? 'post-list-thumb-left' : ''; // 如果为偶数
+switch (akina_option('feature_align')) {
+    case "left":
+        $class = 'post-list-thumb-left';
+        break;
+    case "right":
+        $class = '';
+        break;
+    case "alternate":
+        $class = ($i%2 == 0) ? 'post-list-thumb-left' : ''; // 如果为偶数
+        break;
+    default:
+        $class = ($i%2 == 0) ? 'post-list-thumb-left' : '';
+}
 if(has_post_thumbnail()){
 	$large_image_url = wp_get_attachment_image_src( get_post_thumbnail_id($post->ID), 'large');
 	$post_img = $large_image_url[0];
-	//$post_img = str_replace("//cdn.2heng.xin","//2heng.xin",$post_img); //强制使用又拍云
 }else{
-	$post_img = get_bloginfo('template_url') . '/images/temp.png';
+	$post_img = DEFAULT_FEATURE_IMAGE();
 }
 $the_cat = get_the_category();
 // 摘要字数限制
@@ -31,15 +42,15 @@ $the_cat = get_the_category();
 		<div class="post-content-wrap">
 			<div class="post-content">
 				<div class="post-date">
-					<i class="iconfont icon-time"></i><?php echo poi_time_since(strtotime($post->post_date)); ?>
+					<i class="iconfont icon-time"></i><?php echo poi_time_since(strtotime($post->post_date_gmt)); ?>
 					<?php if(is_sticky()) : ?>
 					&nbsp;<i class="iconfont hotpost icon-hot"></i>
 			 		<?php endif ?>
 				</div>
 				<a href="<?php the_permalink(); ?>" class="post-title"><h3><?php the_title();?></h3></a>
 				<div class="post-meta">
-					<span><i class="iconfont icon-attention"></i><?php echo wp_statistics_pages(total,uri,get_the_ID()); ?> 热度</span>
-					<span class="comments-number"><i class="iconfont icon-mark"></i><?php comments_popup_link('NOTHING', '1 条评论', '% 条评论'); ?></span>
+					<span><i class="iconfont icon-attention"></i><?php echo get_post_views(get_the_ID()).' '._n('Hit','Hits',get_post_views(get_the_ID()),'sakura')/*热度*/?></span>
+					<span class="comments-number"><i class="iconfont icon-mark"></i><?php comments_popup_link('NOTHING', '1 '.__("Comment","sakura")/*条评论*/, '% '.__("Comments","sakura")/*条评论*/); ?></span>
 					<span><i class="iconfont icon-file"></i><a href="<?php echo esc_url(get_category_link($the_cat[0]->cat_ID)); ?>"><?php echo $the_cat[0]->cat_name; ?></a>
 					</span>
 				</div>
